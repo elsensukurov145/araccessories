@@ -36,8 +36,8 @@ function PhoneMesh({ tilt, reducedMotion }: { tilt: { x: number; y: number }; re
         <meshStandardMaterial color="#1a1a1f" metalness={0.7} roughness={0.3} />
       </mesh>
       {[[-0.55, 1.25], [-0.35, 1.25], [-0.55, 1.05], [-0.35, 1.05]].map(([x, y], i) => (
-        <mesh key={i} position={[x, y, -0.16]}>
-          <cylinderGeometry args={[0.07, 0.07, 0.04, 24]} rotation={[Math.PI / 2, 0, 0] as any} />
+        <mesh key={i} position={[x, y, -0.16]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.07, 0.07, 0.04, 24]} />
           <meshStandardMaterial color="#000" metalness={0.9} roughness={0.1} />
         </mesh>
       ))}
