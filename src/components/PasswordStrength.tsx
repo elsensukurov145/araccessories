@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+
 interface Props { password: string }
 
 export function getPasswordStrength(pw: string): { score: number; label: string; color: string } {
@@ -18,11 +20,11 @@ export function getPasswordStrength(pw: string): { score: number; label: string;
   return { score, ...map[score] };
 }
 
-export function PasswordStrength({ password }: Props) {
+export const PasswordStrength = forwardRef<HTMLDivElement, Props>(({ password }, ref) => {
   if (!password) return null;
   const { score, label, color } = getPasswordStrength(password);
   return (
-    <div className="space-y-1">
+    <div ref={ref} className="space-y-1">
       <div className="flex gap-1 h-1.5">
         {[0, 1, 2, 3, 4].map((i) => (
           <div
@@ -34,4 +36,6 @@ export function PasswordStrength({ password }: Props) {
       <p className="text-xs text-muted-foreground">Password strength: <span className="font-medium text-foreground">{label}</span></p>
     </div>
   );
-}
+});
+
+PasswordStrength.displayName = 'PasswordStrength';
