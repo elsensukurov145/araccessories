@@ -2,7 +2,10 @@
 // - Strict format check
 // - Disposable-domain blocklist
 // - DNS MX lookup
-import { corsHeaders } from '@supabase/supabase-js/cors';
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
 
 const DISPOSABLE_DOMAINS = new Set([
   'mailinator.com', 'tempmail.com', 'temp-mail.org', 'guerrillamail.com',
