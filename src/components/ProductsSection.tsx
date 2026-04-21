@@ -1,64 +1,44 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useProducts } from '@/hooks/useProducts';
 import { ProductCard } from './ProductCard';
+import { ProductGridSkeleton } from './ProductSkeleton';
 import { Link } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
+import { useMemo } from 'react';
+import { ArrowRight } from 'lucide-react';
 
 export function ProductsSection() {
   const { t } = useLanguage();
   const { products, loading, error } = useProducts();
-  
-  // Find featured or popular products (since backend currently just grabs all, we slice here)
-  const featured = products.slice(0, 8);
+  const featured = useMemo(() => products.slice(0, 8), [products]);
 
   return (
-    <section className="py-20 bg-secondary">
+    <section className="py-24 bg-[hsl(0_0%_3%)]">
       <div className="container-custom">
-        <div className="flex items-end justify-between mb-12">
+        <div className="flex items-end justify-between mb-12 gap-4 flex-wrap">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-3">
+            <span className="text-xs uppercase tracking-[0.3em] text-accent font-semibold">Featured</span>
+            <h2 className="text-4xl sm:text-5xl font-display font-bold text-foreground mt-3">
               {t('products.title')}
             </h2>
-            <p className="text-muted-foreground text-lg">{t('products.subtitle')}</p>
+            <p className="text-muted-foreground mt-3 max-w-md">{t('products.subtitle')}</p>
           </div>
-          <Link
-            to="/products"
-            className="hidden sm:inline-flex items-center px-5 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
-          >
-            {t('categories.viewAll')} →
+          <Link to="/products" className="btn-outline-gold">
+            {t('categories.viewAll')} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-        
+
         {loading ? (
-           <div className="flex justify-center items-center py-20">
-             <Loader2 className="w-8 h-8 animate-spin text-accent" />
-           </div>
+          <ProductGridSkeleton count={8} />
         ) : error ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <p className="text-destructive mb-4">Failed to load products: {error}</p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 transition-colors"
-            >
-              Retry
-            </button>
+          <div className="text-center py-20">
+            <p className="text-muted-foreground mb-4">No products available right now.</p>
+            <button onClick={() => window.location.reload()} className="btn-outline-gold">Retry</button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {featured.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+            {featured.map(p => <ProductCard key={p.id} product={p} />)}
           </div>
         )}
-
-        <div className="sm:hidden mt-8 text-center">
-          <Link
-            to="/products"
-            className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground rounded-lg text-sm font-semibold"
-          >
-            {t('categories.viewAll')} →
-          </Link>
-        </div>
       </div>
     </section>
   );
