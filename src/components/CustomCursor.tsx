@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 
 /**
- * Soft glowing dot + ring that follows the mouse with lag.
- * Uses rAF + lerp; only runs on devices with hover/fine pointer.
- * Disabled when prefers-reduced-motion is set.
+ * Lightweight cursor: 6px white dot (instant) + 32px hollow ring (lerped).
+ * Single rAF loop, transform: translate3d only.
+ * Pauses when tab hidden. Disabled on touch / reduced-motion.
  */
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -15,49 +15,89 @@ export function CustomCursor() {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!fine || reduced) return;
 
-    let mx = window.innerWidth / 2;
-    let my = window.innerHeight / 2;
-    let dx = mx, dy = my;
-    let rx = mx, ry = my;
+    let tx = window.innerWidth / 2;
+    let ty = window.innerHeight / 2;
+    let rx = tx, ry = ty;
     let raf = 0;
+    let visible = true;
 
     const onMove = (e: MouseEvent) => {
-      mx = e.clientX;
-      my = e.clientY;
-    };
-    const onOver = (e: MouseEvent) => {
-      const t = e.target as HTMLElement;
-      const interactive = !!t.closest('a,button,input,textarea,select,[role="button"]');
-      ringRef.current?.classList.toggle('is-hover', interactive);
+      tx = e.clientX;
+      ty = e.clientY;
     };
 
     const tick = () => {
-      // dot — quick follow
-      dx += (mx - dx) * 0.35;
-      dy += (my - dy) * 0.35;
-      // ring — laggy
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      if (dotRef.current) dotRef.current.style.transform = `translate3d(${dx}px, ${dy}px, 0) translate(-50%, -50%)`;
-      if (ringRef.current) ringRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+      // Dot snaps instantly
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${tx}px, ${ty}px, 0) translate(-50%, -50%)`;
+      }
+      // Ring lerps
+      rx += (tx - rx) * 0.12;
+      ry += (ty - ry) * 0.12;
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+      }
       raf = requestAnimationFrame(tick);
     };
 
+    const onVisibility = () => {
+      const nowVisible = document.visibilityState === 'visible';
+      if (nowVisible && !visible) {
+        visible = true;
+        raf = requestAnimationFrame(tick);
+      } else if (!nowVisible && visible) {
+        visible = false;
+        cancelAnimationFrame(raf);
+      }
+    };
+
     window.addEventListener('mousemove', onMove, { passive: true });
-    window.addEventListener('mouseover', onOver, { passive: true });
+    document.addEventListener('visibilitychange', onVisibility);
     raf = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('mouseover', onOver);
+      document.removeEventListener('visibilitychange', onVisibility);
       cancelAnimationFrame(raf);
     };
   }, []);
 
   return (
     <>
-      <div ref={ringRef} className="cursor-ring hidden md:block" aria-hidden="true" />
-      <div ref={dotRef} className="cursor-dot hidden md:block" aria-hidden="true" />
+      <div
+        ref={ringRef}
+        aria-hidden="true"
+        className="hidden md:block"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: 32,
+          height: 32,
+          borderRadius: '9999px',
+          border: '1.5px solid rgba(232,201,126,0.75)',
+          pointerEvents: 'none',
+          zIndex: 9999,
+          willChange: 'transform',
+        }}
+      />
+      <div
+        ref={dotRef}
+        aria-hidden="true"
+        className="hidden md:block"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: 6,
+          height: 6,
+          borderRadius: '9999px',
+          background: '#ffffff',
+          pointerEvents: 'none',
+          zIndex: 9999,
+          willChange: 'transform',
+        }}
+      />
     </>
   );
 }

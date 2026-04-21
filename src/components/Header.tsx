@@ -6,11 +6,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ShoppingBag, Menu, X, Shield, User, LogOut, Search } from 'lucide-react';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuSeparator, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
 export function Header() {
@@ -22,14 +19,24 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Debounced scroll listener
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    let t: number | undefined;
+    const onScroll = () => {
+      if (t) return;
+      t = window.setTimeout(() => {
+        setScrolled(window.scrollY > 80);
+        t = undefined;
+      }, 10);
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (t) clearTimeout(t);
+    };
   }, []);
 
-  // Lock scroll when drawer open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -47,51 +54,53 @@ export function Header() {
     if (searchQuery.trim()) {
       navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery('');
+      setMenuOpen(false);
     }
   };
 
   return (
     <>
       <header
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? 'bg-background/85 backdrop-blur-xl border-b border-border/60 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.6)]'
-            : 'bg-transparent border-b border-transparent'
+        className={`fixed top-0 inset-x-0 z-40 transition-[background-color,backdrop-filter,border-color] duration-500 ${
+          scrolled ? 'border-b border-white/[0.05]' : 'border-b border-transparent'
         }`}
+        style={{
+          backgroundColor: scrolled ? 'rgba(8,8,10,0.85)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+        }}
       >
         <div className="container-custom">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 group">
-              <span className="font-display text-2xl font-bold tracking-tight text-foreground">
-                ar_<span className="text-accent italic">accessories</span>
-              </span>
+          <div className="flex items-center justify-between h-[72px]">
+            <Link to="/" className="font-body text-lg font-medium tracking-tight" style={{ letterSpacing: '0.02em' }}>
+              <span className="text-accent">ar_</span>
+              <span className="text-foreground">accessories</span>
             </Link>
 
-            {/* Desktop Nav (centered) */}
+            {/* Centered desktop nav */}
             <nav className="hidden lg:flex items-center gap-10 absolute left-1/2 -translate-x-1/2">
               {navLinks.map(link => (
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="relative text-sm font-medium text-muted-foreground hover:text-accent group"
+                  className="relative text-[12px] font-normal text-muted-foreground hover:text-accent uppercase group"
+                  style={{ letterSpacing: '0.08em' }}
                 >
                   {link.label}
-                  <span className="absolute -bottom-1.5 left-0 right-0 h-px bg-accent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-400" />
+                  <span className="absolute -bottom-2 left-0 right-0 h-px bg-accent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500" />
                 </Link>
               ))}
             </nav>
 
-            {/* Actions */}
             <div className="flex items-center gap-1 sm:gap-2">
               <Link
                 to="/cart"
-                className="relative w-10 h-10 inline-flex items-center justify-center text-foreground/85 hover:text-accent rounded-full hover:bg-accent/10"
+                className="relative w-11 h-11 inline-flex items-center justify-center text-foreground/85 hover:text-accent rounded-full"
                 aria-label="Cart"
               >
-                <ShoppingBag className="w-5 h-5" />
+                <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={1.5} />
                 {itemCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-accent text-accent-foreground text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                  <span className="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 bg-accent text-[#08080a] text-[10px] rounded-full flex items-center justify-center font-bold">
                     {itemCount}
                   </span>
                 )}
@@ -100,11 +109,11 @@ export function Header() {
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="w-9 h-9 rounded-full bg-accent/15 text-accent border border-accent/30 flex items-center justify-center text-sm font-bold hover:bg-accent hover:text-accent-foreground">
+                    <button className="w-9 h-9 rounded-full bg-accent/10 text-accent border border-accent/30 flex items-center justify-center text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors">
                       {user.email.charAt(0).toUpperCase()}
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-52 bg-card border-border">
+                  <DropdownMenuContent align="end" className="w-52 bg-card border-white/[0.08]">
                     <DropdownMenuItem asChild>
                       <Link to="/profile" className="flex items-center"><User className="mr-2 h-4 w-4" />Profile</Link>
                     </DropdownMenuItem>
@@ -115,7 +124,7 @@ export function Header() {
                       <>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                          <Link to="/admin" className="flex items-center"><Shield className="mr-2 h-4 w-4 text-accent" />Admin Panel</Link>
+                          <Link to="/admin" className="flex items-center"><Shield className="mr-2 h-4 w-4 text-accent" />Admin</Link>
                         </DropdownMenuItem>
                       </>
                     )}
@@ -128,10 +137,10 @@ export function Header() {
               ) : (
                 <Link
                   to="/login"
-                  className="w-10 h-10 inline-flex items-center justify-center text-foreground/85 hover:text-accent rounded-full hover:bg-accent/10"
+                  className="w-11 h-11 inline-flex items-center justify-center text-foreground/85 hover:text-accent rounded-full"
                   aria-label="Login"
                 >
-                  <User className="w-5 h-5" />
+                  <User className="w-[18px] h-[18px]" strokeWidth={1.5} />
                 </Link>
               )}
 
@@ -141,73 +150,78 @@ export function Header() {
 
               <button
                 onClick={() => setMenuOpen(true)}
-                className="lg:hidden w-10 h-10 inline-flex items-center justify-center text-foreground hover:text-accent rounded-full"
+                className="lg:hidden w-11 h-11 inline-flex items-center justify-center text-foreground hover:text-accent rounded-full"
                 aria-label="Open menu"
               >
-                <Menu className="w-5 h-5" />
+                <Menu className="w-5 h-5" strokeWidth={1.5} />
               </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile drawer */}
+      {/* Full-screen overlay menu */}
       <div
-        className={`lg:hidden fixed inset-0 z-[60] transition-opacity duration-400 ${
-          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`lg:hidden fixed inset-0 z-50 ${menuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
         aria-hidden={!menuOpen}
       >
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" onClick={() => setMenuOpen(false)} />
-        {/* Drawer */}
-        <aside
-          className={`absolute top-0 right-0 h-full w-[85%] max-w-sm bg-card border-l border-border shadow-2xl flex flex-col transition-transform duration-400 ease-out ${
-            menuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-        >
-          <div className="flex items-center justify-between px-6 h-20 border-b border-border">
-            <span className="font-display text-xl font-bold">Menu</span>
+        <div
+          className="absolute inset-0 bg-background transition-opacity duration-500"
+          style={{ opacity: menuOpen ? 1 : 0 }}
+        />
+        <div className="relative h-full flex flex-col">
+          <div className="container-custom flex items-center justify-between h-[72px]">
+            <span className="font-body text-lg" style={{ opacity: menuOpen ? 1 : 0, transition: 'opacity 0.4s' }}>
+              <span className="text-accent">ar_</span>accessories
+            </span>
             <button
               onClick={() => setMenuOpen(false)}
-              className="w-10 h-10 rounded-full inline-flex items-center justify-center hover:bg-accent/10 hover:text-accent"
+              className="w-11 h-11 inline-flex items-center justify-center text-foreground hover:text-accent"
               aria-label="Close menu"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" strokeWidth={1.5} />
             </button>
           </div>
-          <form onSubmit={handleSearch} className="px-6 pt-5">
+
+          <form onSubmit={handleSearch} className="container-custom mt-2">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
               <input
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder={t('nav.search') || 'Search products...'}
-                className="w-full h-11 pl-10 pr-4 rounded-full bg-secondary border border-border text-sm focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/30"
+                placeholder="Search..."
+                className="w-full h-12 pl-10 pr-4 rounded-full bg-card border border-white/[0.06] text-sm focus:outline-none focus:border-accent"
               />
             </div>
           </form>
-          <nav className="flex-1 overflow-y-auto px-6 pt-6 flex flex-col gap-1">
-            {navLinks.map(link => (
+
+          <nav className="flex-1 container-custom flex flex-col justify-center gap-2 -mt-20">
+            {navLinks.map((link, i) => (
               <Link
                 key={link.href}
                 to={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="px-4 py-4 min-h-[44px] text-lg font-display border-b border-border/50 hover:text-accent"
+                className="block py-4 font-display text-5xl text-foreground hover:text-accent border-b border-white/[0.06]"
+                style={{
+                  opacity: menuOpen ? 1 : 0,
+                  transform: menuOpen ? 'translateY(0)' : 'translateY(20px)',
+                  transition: `opacity 0.5s ${0.1 + i * 0.08}s, transform 0.5s ${0.1 + i * 0.08}s`,
+                }}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <div className="p-6 border-t border-border flex items-center justify-between">
+
+          <div className="container-custom pb-10 flex items-center justify-between">
             <LanguageSwitcher />
             {!user && (
-              <Link to="/login" onClick={() => setMenuOpen(false)} className="btn-outline-gold !py-2 !px-5 text-xs">
+              <Link to="/login" onClick={() => setMenuOpen(false)} className="btn-outline-gold">
                 Sign In
               </Link>
             )}
           </div>
-        </aside>
+        </div>
       </div>
     </>
   );
