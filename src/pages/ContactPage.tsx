@@ -5,7 +5,7 @@ import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 const ContactPage = () => (
   <div className="min-h-screen flex flex-col">
     <Header />
-    <main className="flex-1 container-custom py-12">
+    <main className="flex-1 container-custom pt-28 pb-12">
       <h1 className="text-3xl sm:text-4xl font-bold font-display mb-4">Contact Us</h1>
       <p className="text-muted-foreground mb-10 max-w-xl">Have a question? Reach out via any channel below — we usually reply within a few hours.</p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -74,7 +74,7 @@ const CartPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 container-custom py-10">
+      <main className="flex-1 container-custom pt-28 pb-12">
         <h1 className="text-3xl font-bold font-display mb-8">Your Cart</h1>
         {items.length === 0 ? (
           <div className="text-center py-20">

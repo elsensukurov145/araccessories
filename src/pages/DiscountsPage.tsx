@@ -14,7 +14,7 @@ const DiscountsPage = () => {
   return (
     <div className="page-wrapper">
       <Header />
-      <main className="page-main container-custom py-10">
+      <main className="page-main container-custom pt-28 pb-12">
         <h1 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-3">{t('products.discountedProducts')}</h1>
         <p className="text-muted-foreground text-lg mb-8">{t('products.discountedSubtitle')}</p>
 

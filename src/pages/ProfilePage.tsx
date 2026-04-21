@@ -37,7 +37,7 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 container-custom py-10 max-w-2xl">
+      <main className="flex-1 container-custom pt-28 pb-12 max-w-2xl">
         <h1 className="text-3xl font-bold font-display mb-8">My Profile</h1>
         {loading ? (
           <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
