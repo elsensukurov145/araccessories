@@ -127,6 +127,10 @@
   .page-main {
     @apply flex-1;
   }
+  /* Apply on pages that don't start with the full-screen Hero */
+  .page-pad {
+    @apply pt-24 sm:pt-28;
+  }
 
   /* Premium gold button */
   .btn-gold {
