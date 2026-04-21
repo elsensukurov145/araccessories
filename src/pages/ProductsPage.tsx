@@ -60,7 +60,7 @@ const ProductsPage = () => {
   return (
     <div className="page-wrapper">
       <Header />
-      <main className="page-main container-custom py-10">
+      <main className="page-main container-custom pt-28 pb-12">
         <h1 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-8">{t('products.title')}</h1>
 
         <div className="flex flex-wrap gap-3 mb-8">

@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Lock } from 'lucide-react';
 
 const LoginPage: React.FC = () => {
@@ -27,57 +22,81 @@ const LoginPage: React.FC = () => {
     const { error: signInError } = await signIn(email, password);
     setIsLoading(false);
     if (signInError) {
-      // Map Supabase errors to friendlier copy
-      if (/invalid login credentials/i.test(signInError)) {
-        setError('Wrong email or password.');
-      } else if (/email not confirmed/i.test(signInError)) {
-        setError('Please confirm your email before signing in.');
-      } else {
-        setError(signInError);
-      }
+      if (/invalid login credentials/i.test(signInError)) setError('Wrong email or password.');
+      else if (/email not confirmed/i.test(signInError)) setError('Please confirm your email before signing in.');
+      else setError(signInError);
       return;
     }
     navigate('/');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background via-background to-secondary/30 px-4 py-12">
-      <Card className="w-full max-w-md border border-border/50 shadow-2xl">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-gradient-to-br from-accent to-accent/80 flex items-center justify-center">
-            <Lock className="w-8 h-8 text-accent-foreground" />
+    <div className="min-h-screen flex items-center justify-center bg-background hero-bg px-4 py-12 relative overflow-hidden">
+      <div className="absolute -top-40 -left-40 w-96 h-96 bg-accent/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative w-full max-w-md">
+        <Link to="/" className="block text-center mb-8 font-display text-2xl font-bold">
+          ar_<span className="text-accent italic">accessories</span>
+        </Link>
+
+        <div className="card-premium p-8 sm:p-10">
+          <div className="text-center mb-8">
+            <div className="mx-auto mb-5 w-14 h-14 rounded-2xl bg-accent/10 border border-accent/30 flex items-center justify-center">
+              <Lock className="w-6 h-6 text-accent" />
+            </div>
+            <h1 className="text-3xl font-display font-bold text-foreground">Welcome Back</h1>
+            <p className="text-sm text-muted-foreground mt-2">Sign in to continue</p>
           </div>
-          <CardTitle className="text-3xl font-bold text-foreground">Welcome Back</CardTitle>
-          <CardDescription className="text-base mt-2">Sign in to your account to continue shopping</CardDescription>
-        </CardHeader>
-        <CardContent>
+
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@example.com" />
+            <div className="floating-input">
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="email"
+                required
+              />
+              <label htmlFor="email">Email Address</label>
             </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link to="/forgot-password" className="text-xs text-accent hover:underline">Forgot password?</Link>
-              </div>
-              <Input id="password" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Enter your password" />
+
+            <div className="floating-input">
+              <input
+                id="password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="password"
+                required
+              />
+              <label htmlFor="password">Password</label>
             </div>
+
+            <div className="flex justify-end">
+              <Link to="/forgot-password" className="text-xs text-accent hover:underline">Forgot password?</Link>
+            </div>
+
             {error && (
-              <Alert variant="destructive" className="bg-destructive/10 border-destructive/30">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
+              <div className="bg-destructive/10 border border-destructive/30 text-destructive text-sm rounded-xl px-4 py-3">
+                {error}
+              </div>
             )}
-            <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground py-2.5 text-base font-semibold rounded-lg" disabled={isLoading}>
-              {isLoading ? (<><Loader2 className="mr-2 h-4 w-4 animate-spin" />Signing in...</>) : 'Sign in'}
-            </Button>
+
+            <button type="submit" disabled={isLoading} className="btn-gold w-full disabled:opacity-60">
+              {isLoading ? <><Loader2 className="w-4 h-4 animate-spin" /> Signing in...</> : 'Sign in'}
+            </button>
           </form>
-          <div className="mt-6 text-center text-sm text-muted-foreground border-t border-border/30 pt-6">
+
+          <div className="mt-8 text-center text-sm text-muted-foreground border-t border-border/50 pt-6">
             Don't have an account?{' '}
             <Link to="/signup" className="text-accent font-medium hover:underline">Sign up</Link>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 };
