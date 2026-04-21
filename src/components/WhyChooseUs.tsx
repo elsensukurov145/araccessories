@@ -12,22 +12,24 @@ export function WhyChooseUs() {
   ];
 
   return (
-    <section className="py-20 bg-primary text-primary-foreground">
-      <div className="container-custom">
-        <div className="text-center mb-14">
-          <h2 className="text-3xl sm:text-4xl font-bold font-display mb-3">
+    <section className="py-24 bg-background relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--accent)/0.08),transparent_60%)] pointer-events-none" />
+      <div className="container-custom relative">
+        <div className="text-center mb-16">
+          <span className="text-xs uppercase tracking-[0.3em] text-accent font-semibold">Why Us</span>
+          <h2 className="text-4xl sm:text-5xl font-display font-bold text-foreground mt-3 mb-4">
             {t('whyUs.title')}
           </h2>
-          <p className="text-primary-foreground/70 text-lg">{t('whyUs.subtitle')}</p>
+          <p className="text-muted-foreground">{t('whyUs.subtitle')}</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((f, i) => (
-            <div key={i} className="text-center">
-              <div className="w-16 h-16 mx-auto mb-5 rounded-xl bg-accent/20 flex items-center justify-center">
-                <f.icon className="w-7 h-7 text-accent" />
+            <div key={i} className="card-premium p-8 text-center">
+              <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+                <f.icon className="w-7 h-7" />
               </div>
-              <h3 className="text-lg font-bold mb-2 font-display">{f.title}</h3>
-              <p className="text-primary-foreground/60 text-sm leading-relaxed">{f.desc}</p>
+              <h3 className="text-lg font-display font-bold mb-2 text-foreground">{f.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>

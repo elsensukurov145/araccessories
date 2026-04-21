@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export function FAQ() {
   const { t } = useLanguage();
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     { q: t('faq.q1'), a: t('faq.a1') },
@@ -14,31 +14,42 @@ export function FAQ() {
   ];
 
   return (
-    <section className="py-20 bg-background">
+    <section className="py-24 bg-[hsl(0_0%_3%)]">
       <div className="container-custom max-w-3xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-3">
+        <div className="text-center mb-14">
+          <span className="text-xs uppercase tracking-[0.3em] text-accent font-semibold">Support</span>
+          <h2 className="text-4xl sm:text-5xl font-display font-bold text-foreground mt-3 mb-4">
             {t('faq.title')}
           </h2>
-          <p className="text-muted-foreground text-lg">{t('faq.subtitle')}</p>
+          <p className="text-muted-foreground">{t('faq.subtitle')}</p>
         </div>
         <div className="space-y-3">
-          {faqs.map((faq, i) => (
-            <div key={i} className="border border-border rounded-xl overflow-hidden">
-              <button
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-muted/50 transition-colors"
+          {faqs.map((faq, i) => {
+            const open = openIndex === i;
+            return (
+              <div
+                key={i}
+                className={`rounded-2xl border overflow-hidden transition-colors ${
+                  open ? 'border-accent/50 bg-card' : 'border-border bg-card/40'
+                }`}
               >
-                <span className="font-semibold text-foreground text-sm pr-4">{faq.q}</span>
-                <ChevronDown className={`w-5 h-5 text-muted-foreground shrink-0 transition-transform ${openIndex === i ? 'rotate-180' : ''}`} />
-              </button>
-              {openIndex === i && (
-                <div className="px-6 pb-4">
-                  <p className="text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
+                <button
+                  onClick={() => setOpenIndex(open ? null : i)}
+                  className="w-full flex items-center justify-between px-6 py-5 text-left"
+                >
+                  <span className={`font-display text-base ${open ? 'text-accent' : 'text-foreground'}`}>{faq.q}</span>
+                  <ChevronDown className={`w-5 h-5 shrink-0 transition-transform ${open ? 'rotate-180 text-accent' : 'text-muted-foreground'}`} />
+                </button>
+                <div
+                  className={`grid transition-[grid-template-rows] duration-400 ${open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="px-6 pb-5 text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
+                  </div>
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
