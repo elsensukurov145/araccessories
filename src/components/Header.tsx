@@ -115,22 +115,22 @@ export function Header() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-52 bg-card border-white/[0.08]">
                     <DropdownMenuItem asChild>
-                      <Link to="/profile" className="flex items-center"><User className="mr-2 h-4 w-4" />Profile</Link>
+                      <Link to="/profile" className="flex items-center"><User className="mr-2 h-4 w-4" />{t('nav.profile')}</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link to="/orders" className="flex items-center"><ShoppingBag className="mr-2 h-4 w-4" />Orders</Link>
+                      <Link to="/orders" className="flex items-center"><ShoppingBag className="mr-2 h-4 w-4" />{t('nav.orders')}</Link>
                     </DropdownMenuItem>
                     {user.role === 'admin' && (
                       <>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                          <Link to="/admin" className="flex items-center"><Shield className="mr-2 h-4 w-4 text-accent" />Admin</Link>
+                          <Link to="/admin" className="flex items-center"><Shield className="mr-2 h-4 w-4 text-accent" />{t('nav.admin')}</Link>
                         </DropdownMenuItem>
                       </>
                     )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={signOut} className="text-destructive focus:text-destructive">
-                      <LogOut className="mr-2 h-4 w-4" />Logout
+                      <LogOut className="mr-2 h-4 w-4" />{t('nav.logout')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -189,7 +189,7 @@ export function Header() {
               <input
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Search..."
+                placeholder={t('nav.search')}
                 className="w-full h-12 pl-10 pr-4 rounded-full bg-card border border-white/[0.06] text-sm focus:outline-none focus:border-accent"
               />
             </div>
@@ -217,7 +217,7 @@ export function Header() {
             <LanguageSwitcher />
             {!user && (
               <Link to="/login" onClick={() => setMenuOpen(false)} className="btn-outline-gold">
-                Sign In
+                {t('nav.signin')}
               </Link>
             )}
           </div>

@@ -16,9 +16,9 @@ export function Categories() {
       <div className="container-custom">
         <div className="flex items-end justify-between mb-14 flex-wrap gap-6">
           <div>
-            <span className="label-eyebrow">— Collection</span>
+            <span className="label-eyebrow">— {t('categories.collection')}</span>
             <h2 className="text-5xl sm:text-6xl font-display font-light text-foreground mt-3 leading-none">
-              Shop by <span className="italic text-gold-gradient font-black">category</span>
+              {t('categories.shopByPrefix')} <span className="italic text-gold-gradient font-black">{t('categories.shopBy')}</span>
             </h2>
           </div>
           <p className="text-muted-foreground max-w-xs text-sm leading-relaxed">{t('categories.subtitle')}</p>
