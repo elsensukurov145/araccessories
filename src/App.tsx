@@ -8,7 +8,6 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import { CustomCursor } from "@/components/CustomCursor";
 import { PageTransition } from "@/components/PageTransition";
 import { Loader2 } from "lucide-react";
 
@@ -44,7 +43,6 @@ const App = () => (
               <Toaster />
               <Sonner />
               <BrowserRouter>
-                <CustomCursor />
                 <Suspense fallback={<RouteFallback />}>
                   <PageTransition>
                     <Routes>

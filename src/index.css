@@ -94,11 +94,6 @@
 
   * { border-color: rgba(255, 255, 255, 0.06); }
 
-  @media (hover: hover) and (pointer: fine) {
-    body { cursor: none; }
-    a, button, input, textarea, select, [role="button"] { cursor: none; }
-  }
-
   ::selection {
     background: #e8c97e;
     color: #000;
