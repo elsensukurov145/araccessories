@@ -54,7 +54,7 @@ function ProductCardImpl({ product }: ProductCardProps) {
           )}
           {isNew && !product.discount_price && (
             <span className="px-2.5 py-1 glass-pill text-accent text-[10px] font-medium rounded-full uppercase" style={{ letterSpacing: '0.08em' }}>
-              New
+              {t('products.new')}
             </span>
           )}
         </div>
@@ -77,7 +77,7 @@ function ProductCardImpl({ product }: ProductCardProps) {
             }`}
             style={{ letterSpacing: '0.12em' }}
           >
-            {added ? <><Check className="w-4 h-4" /> Added</> : t('products.addToCart')}
+            {added ? <><Check className="w-4 h-4" /> {t('products.added')}</> : t('products.addToCart')}
           </button>
         </div>
       </div>

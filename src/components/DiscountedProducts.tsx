@@ -7,9 +7,9 @@ import { useMemo } from 'react';
 
 export function DiscountedProducts() {
   const { t } = useLanguage();
-  const { products, loading, error } = useProducts();
+  const { products, loading } = useProducts();
   const discounted = useMemo(
-    () => products.filter(p => p.discount_price != null).slice(0, 4),
+    () => products.filter(p => p?.discount_price != null).slice(0, 4),
     [products]
   );
 
@@ -17,7 +17,6 @@ export function DiscountedProducts() {
 
   return (
     <section className="py-28 bg-background relative overflow-hidden">
-      {/* Massive watermark SALE */}
       <div
         aria-hidden
         className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
@@ -37,18 +36,17 @@ export function DiscountedProducts() {
       <div className="container-custom relative">
         <div className="flex items-end justify-between mb-14 flex-wrap gap-6">
           <div>
-            <span className="label-eyebrow text-destructive" style={{ color: 'hsl(var(--destructive))' }}>— Limited Time</span>
+            <span className="label-eyebrow" style={{ color: 'hsl(var(--destructive))' }}>— {t('products.onSale')}</span>
             <h2 className="text-5xl sm:text-6xl font-display font-light text-foreground mt-3 leading-none">
-              On <span className="italic text-gold-gradient font-black">sale</span> now
+              {t('products.onSaleTitle')}{' '}
+              <span className="italic text-gold-gradient font-black">{t('products.onSaleAccent')}</span>
             </h2>
           </div>
-          <Link to="/discounts" className="btn-outline-gold">View all</Link>
+          <Link to="/discounts" className="btn-outline-gold">{t('products.viewAllBtn')}</Link>
         </div>
 
         {loading ? (
           <ProductGridSkeleton count={4} />
-        ) : error ? (
-          <div className="text-center py-12 text-muted-foreground">No discounts at the moment.</div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
             {discounted.map(p => <ProductCard key={p.id} product={p} />)}

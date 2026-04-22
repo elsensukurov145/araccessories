@@ -7,7 +7,7 @@ import { ProductGridSkeleton } from '@/components/ProductSkeleton';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useProducts } from '@/hooks/useProducts';
 import { Category } from '@/types/product';
-import { PackageOpen } from 'lucide-react';
+import { PackageOpen, RefreshCw } from 'lucide-react';
 
 type SortMode = 'newest' | 'popular' | 'discounted';
 
@@ -17,7 +17,7 @@ const ProductsPage = () => {
   const initialCategory = searchParams.get('category') as Category | null;
   const initialSearch = searchParams.get('search') || '';
 
-  const { products, loading } = useProducts();
+  const { products, loading, error, refetch } = useProducts();
   const [category, setCategory] = useState<Category | 'all'>(initialCategory || 'all');
   const [sort, setSort] = useState<SortMode>('popular');
   const [search, setSearch] = useState(initialSearch);
@@ -26,16 +26,16 @@ const ProductsPage = () => {
   const filtered = useMemo(() => {
     if (!products) return [];
     let result = [...products];
-    if (category !== 'all') result = result.filter(p => p.category === category);
+    if (category !== 'all') result = result.filter(p => p?.category === category);
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter(
-        p => (p.name[lang] && p.name[lang].toLowerCase().includes(q)) ||
-             (p.description[lang] && p.description[lang].toLowerCase().includes(q))
+        p => (p?.name?.[lang] && p.name[lang].toLowerCase().includes(q)) ||
+             (p?.description?.[lang] && p.description[lang].toLowerCase().includes(q))
       );
     }
     result = result.filter(p => {
-      const price = p.discount_price || p.price;
+      const price = p?.discount_price || p?.price || 0;
       return price >= priceRange[0] && price <= priceRange[1];
     });
     switch (sort) {
@@ -87,6 +87,14 @@ const ProductsPage = () => {
 
         {loading ? (
           <ProductGridSkeleton count={8} />
+        ) : error ? (
+          <div className="text-center py-20 text-muted-foreground">
+            <PackageOpen className="w-12 h-12 mx-auto mb-4 opacity-40" />
+            <p className="text-lg font-medium">{t('products.loadError')}</p>
+            <button onClick={refetch} className="mt-4 inline-flex items-center gap-2 text-accent hover:text-accent/80 text-sm uppercase" style={{ letterSpacing: '0.12em' }}>
+              <RefreshCw className="w-4 h-4" /> {t('products.retry')}
+            </button>
+          </div>
         ) : filtered.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {filtered.map(product => <ProductCard key={product.id} product={product} />)}
@@ -94,8 +102,8 @@ const ProductsPage = () => {
         ) : (
           <div className="text-center py-20 text-muted-foreground">
             <PackageOpen className="w-12 h-12 mx-auto mb-4 opacity-40" />
-            <p className="text-lg font-medium">No products match your filters</p>
-            <p className="text-sm mt-1">Try adjusting your search or category.</p>
+            <p className="text-lg font-medium">{t('products.noMatch')}</p>
+            <p className="text-sm mt-1">{t('products.noMatchHint')}</p>
           </div>
         )}
       </main>

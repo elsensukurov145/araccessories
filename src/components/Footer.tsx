@@ -92,10 +92,10 @@ export function Footer() {
       <div className="border-t border-white/[0.04]">
         <div className="container-custom py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-[10px] text-muted-foreground uppercase" style={{ letterSpacing: '0.24em' }}>
-            © 2025 ar_accessories — All Rights Reserved
+            © 2025 ar_accessories — {t('footer.rights')}
           </p>
           <p className="text-[10px] text-muted-foreground uppercase" style={{ letterSpacing: '0.24em' }}>
-            Crafted in Azerbaijan
+            {t('footer.craftedIn')}
           </p>
         </div>
       </div>
