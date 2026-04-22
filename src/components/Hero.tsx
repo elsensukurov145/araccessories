@@ -69,13 +69,18 @@ export function Hero() {
         aria-hidden
       >
         <img
-          src="https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?auto=format&fit=crop&w=1200&q=80"
+          src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=900"
           alt=""
           loading="eager"
-          width={1200}
-          height={1500}
-          className="w-full h-full object-contain"
+          width={900}
+          height={1125}
+          className="w-full h-full object-cover"
           style={{ filter: 'drop-shadow(0 40px 80px rgba(232,201,126,0.15))' }}
+        />
+        {/* Gradient fade on left edge to blend into dark bg */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(to right, hsl(var(--background)) 0%, hsl(var(--background) / 0.6) 25%, transparent 60%)' }}
         />
       </div>
 
