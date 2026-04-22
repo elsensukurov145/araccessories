@@ -60,22 +60,23 @@ export function Hero() {
 
       {/* Hero image bottom-right (hidden on mobile) */}
       <div
-        className="hidden md:block absolute -right-[6%] bottom-0 w-[55%] max-w-[720px] aspect-[4/5] opacity-0 pointer-events-none z-[1]"
-        style={{
-          animation: 'fade-up 1.4s 0.6s forwards',
-          maskImage: 'radial-gradient(ellipse at center, #000 50%, transparent 85%)',
-          WebkitMaskImage: 'radial-gradient(ellipse at center, #000 50%, transparent 85%)',
-        }}
+        className="hidden md:block absolute right-0 bottom-0 top-0 w-[55%] max-w-[780px] opacity-0 pointer-events-none z-[1]"
+        style={{ animation: 'fade-up 1.4s 0.6s forwards' }}
         aria-hidden
       >
         <img
-          src="https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?auto=format&fit=crop&w=1200&q=80"
+          src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=900"
           alt=""
           loading="eager"
-          width={1200}
-          height={1500}
-          className="w-full h-full object-contain"
+          width={900}
+          height={1125}
+          className="w-full h-full object-cover"
           style={{ filter: 'drop-shadow(0 40px 80px rgba(232,201,126,0.15))' }}
+        />
+        {/* Gradient fade on left edge to blend into dark bg */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'linear-gradient(to right, hsl(var(--background)) 0%, hsl(var(--background) / 0.6) 25%, transparent 60%)' }}
         />
       </div>
 
