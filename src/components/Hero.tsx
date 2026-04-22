@@ -60,12 +60,8 @@ export function Hero() {
 
       {/* Hero image bottom-right (hidden on mobile) */}
       <div
-        className="hidden md:block absolute -right-[6%] bottom-0 w-[55%] max-w-[720px] aspect-[4/5] opacity-0 pointer-events-none z-[1]"
-        style={{
-          animation: 'fade-up 1.4s 0.6s forwards',
-          maskImage: 'radial-gradient(ellipse at center, #000 50%, transparent 85%)',
-          WebkitMaskImage: 'radial-gradient(ellipse at center, #000 50%, transparent 85%)',
-        }}
+        className="hidden md:block absolute right-0 bottom-0 top-0 w-[55%] max-w-[780px] opacity-0 pointer-events-none z-[1]"
+        style={{ animation: 'fade-up 1.4s 0.6s forwards' }}
         aria-hidden
       >
         <img
