@@ -17,9 +17,8 @@ export function useProducts() {
       .order('created_at', { ascending: false });
 
     if (dbError) {
-      // Don't show a red banner — just log and return empty list (graceful)
       console.error('[useProducts]', dbError.message);
-      setError(null);
+      setError(dbError.message);
       setProducts([]);
     } else {
       setProducts((data ?? []) as unknown as Product[]);
