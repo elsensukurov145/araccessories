@@ -3,7 +3,7 @@ import { Hero } from '@/components/Hero';
 import { Categories } from '@/components/Categories';
 import { ProductsSection } from '@/components/ProductsSection';
 import { DiscountedProducts } from '@/components/DiscountedProducts';
-import { WhyChooseUs } from '@/components/WhyChooseUs';
+import { BentoGrid } from '@/components/BentoGrid';
 import { Reviews } from '@/components/Reviews';
 import { FAQ } from '@/components/FAQ';
 import { Footer } from '@/components/Footer';
@@ -18,7 +18,7 @@ const Index = () => {
         <Categories />
         <ProductsSection />
         <DiscountedProducts />
-        <WhyChooseUs />
+        <BentoGrid />
         <Reviews />
         <FAQ />
       </main>
