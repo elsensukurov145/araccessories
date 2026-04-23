@@ -13,11 +13,11 @@ export function BentoGrid() {
   ];
 
   return (
-    <section className="py-24 bg-background relative">
+    <section className="py-16 sm:py-24 bg-background relative">
       <div className="container-custom">
-        <div ref={ref} className="reveal text-center mb-14">
+        <div ref={ref} className="reveal text-center mb-10 sm:mb-14">
           <span className="label-eyebrow">{t('bento.eyebrow')}</span>
-          <h2 className="text-4xl sm:text-5xl font-display font-bold text-foreground mt-3">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mt-3">
             {t('bento.title')}
           </h2>
         </div>
