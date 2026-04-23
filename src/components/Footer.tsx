@@ -9,10 +9,10 @@ export function Footer() {
     <footer className="bg-[#050507] text-foreground relative">
       <div className="footer-divider" />
 
-      <div className="container-custom py-20">
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
+      <div className="container-custom py-12 sm:py-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
           {/* Brand */}
-          <div className="col-span-2 lg:col-span-2 lg:pr-8">
+          <div className="sm:col-span-2 lg:col-span-2 lg:pr-8">
             <Link to="/" className="font-body text-xl block mb-5">
               <span className="text-accent">ar_</span>
               <span className="text-foreground">accessories</span>

@@ -15,18 +15,18 @@ export function ProductsSection() {
   const gridRef = useReveal<HTMLDivElement>();
 
   return (
-    <section className="py-28 bg-surface">
+    <section id="products" className="py-16 sm:py-24 lg:py-28 bg-surface">
       <div className="container-custom">
-        <div ref={headerRef} className="reveal flex items-end justify-between mb-14 flex-wrap gap-6">
+        <div ref={headerRef} className="reveal flex items-end justify-between mb-10 sm:mb-14 flex-wrap gap-4 sm:gap-6">
           <div>
             <span className="label-eyebrow">— {t('products.featured')}</span>
-            <h2 className="text-5xl sm:text-6xl font-display font-light text-foreground mt-3 leading-none">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-light text-foreground mt-3 leading-none">
               {t('products.featuredTitle')}{' '}
               <span className="italic text-gold-gradient font-black">{t('products.featuredAccent')}</span>
             </h2>
             <p className="text-muted-foreground mt-4 max-w-md text-sm leading-relaxed">{t('products.subtitle')}</p>
           </div>
-          <Link to="/products" className="btn-outline-gold">{t('products.viewAllBtn')}</Link>
+          <Link to="/products" className="btn-outline-gold w-full sm:w-auto">{t('products.viewAllBtn')}</Link>
         </div>
 
         {loading ? (
@@ -44,7 +44,7 @@ export function ProductsSection() {
             </button>
           </div>
         ) : (
-          <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+          <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
             {featured.map(p => (
               <div key={p.id} data-reveal-child>
                 <ProductCard product={p} />

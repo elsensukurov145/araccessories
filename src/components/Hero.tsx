@@ -94,7 +94,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative container-custom pt-32 pb-28 lg:pt-40 lg:pb-36 w-full z-10">
+      <div className="relative container-custom pt-28 sm:pt-32 pb-32 sm:pb-28 lg:pt-40 lg:pb-36 w-full z-10">
         {/* Subtle radial glow behind heading */}
         <div
           aria-hidden
