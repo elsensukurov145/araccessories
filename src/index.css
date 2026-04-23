@@ -169,6 +169,28 @@
   }
   .btn-outline-gold:hover { background: #e8c97e; color: #08080a; border-color: #e8c97e; }
 
+  /* Glassmorphism pill button (Apple/Nothing.tech style) */
+  .btn-glass {
+    @apply relative inline-flex items-center justify-center gap-2 px-7 py-3 min-h-[46px] text-sm font-medium overflow-hidden text-foreground;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+    transition: background-color 0.4s ease, border-color 0.4s ease, transform 0.4s ease, color 0.4s ease;
+  }
+  .btn-glass:hover {
+    background: rgba(255,255,255,0.10);
+    border-color: rgba(255,255,255,0.20);
+    transform: translateY(-1px);
+  }
+  .btn-glass-primary:hover {
+    background: rgba(232,201,126,0.15);
+    border-color: #e8c97e;
+    color: #ffffff;
+  }
+
   /* Floating-label inputs with center-out underline */
   .floating-input { @apply relative; }
   .floating-input input,
