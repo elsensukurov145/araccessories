@@ -73,6 +73,13 @@
     font-weight: 300;
     overflow-x: hidden;
     position: relative;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  html {
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   /* Subtle SVG grain overlay */

@@ -172,14 +172,14 @@ export function Hero() {
 
       {/* Marquee */}
       <div
-        className="absolute bottom-16 inset-x-0 marquee text-muted-foreground/70 text-[11px] uppercase z-10"
+        className="absolute bottom-12 sm:bottom-16 inset-x-0 marquee text-muted-foreground/70 text-[9px] sm:text-[11px] uppercase z-10"
         style={{ letterSpacing: '0.24em' }}
       >
         <div className="marquee-track">
           {Array.from({ length: 2 }).map((_, k) => (
-            <span key={k} className="inline-flex items-center gap-12 pr-12">
+            <span key={k} className="inline-flex items-center gap-8 sm:gap-12 pr-8 sm:pr-12">
               {marqueeItems.concat(marqueeItems).map((item, i) => (
-                <span key={i} className="inline-flex items-center gap-12">
+                <span key={i} className="inline-flex items-center gap-8 sm:gap-12">
                   <span>{item}</span>
                   <span className="text-accent">·</span>
                 </span>
@@ -191,8 +191,8 @@ export function Hero() {
 
       {/* Scroll indicator */}
       <a
-        href="#categories"
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground hover:text-accent z-10"
+        href="#products"
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground hover:text-accent z-10"
         aria-label="Scroll"
       >
         <ChevronDown className="w-4 h-4" style={{ animation: 'bounce-soft 2s ease-in-out infinite' }} />
