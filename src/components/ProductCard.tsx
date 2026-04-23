@@ -1,24 +1,39 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCart } from '@/contexts/CartContext';
 import { Product } from '@/types/product';
 import { Check } from 'lucide-react';
-import { memo, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 
 interface ProductCardProps { product: Product; }
 
 function ProductCardImpl({ product }: ProductCardProps) {
   const { lang, t } = useLanguage();
   const { addToCart } = useCart();
+  const navigate = useNavigate();
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0] || '');
   const [added, setAdded] = useState(false);
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     if (!product.in_stock) return;
     addToCart(product, selectedColor);
+    const btn = e.currentTarget;
+    btn.classList.remove('click-pop');
+    void btn.offsetWidth;
+    btn.classList.add('click-pop');
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
+  };
+
+  const handleCardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('button')) return;
+    e.preventDefault();
+    cardRef.current?.classList.add('card-leaving');
+    setTimeout(() => navigate(`/product/${product.id}`), 280);
   };
 
   const discountPercent = product.discount_price
@@ -27,7 +42,12 @@ function ProductCardImpl({ product }: ProductCardProps) {
   const isNew = new Date(product.created_at).getTime() > Date.now() - 30 * 24 * 60 * 60 * 1000;
 
   return (
-    <Link to={`/product/${product.id}`} className="card-museum group block aspect-[3/4] flex flex-col">
+    <a
+      ref={cardRef}
+      href={`/product/${product.id}`}
+      onClick={handleCardClick}
+      className="card-museum group block aspect-[3/4] flex flex-col"
+    >
       {/* Image — grows to 65% on hover */}
       <div className="relative overflow-hidden h-[55%] group-hover:h-[65%] transition-[height] duration-500 bg-[#0f0f15]">
         <img
@@ -42,10 +62,8 @@ function ProductCardImpl({ product }: ProductCardProps) {
             el.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"%3E%3Crect fill="%230f0f15" width="400" height="500"/%3E%3Ctext x="50%25" y="50%25" font-size="14" fill="%236b6b7b" text-anchor="middle" dy=".3em"%3ENo image%3C/text%3E%3C/svg%3E';
           }}
         />
-        {/* Inner shadow at bottom */}
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#0f0f15] to-transparent pointer-events-none" />
 
-        {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
           {product.discount_price && (
             <span className="px-2.5 py-1 bg-destructive text-destructive-foreground text-[10px] font-medium rounded-full uppercase" style={{ letterSpacing: '0.08em' }}>
@@ -67,7 +85,6 @@ function ProductCardImpl({ product }: ProductCardProps) {
           </div>
         )}
 
-        {/* Add to Cart slide-up text */}
         <div className="absolute bottom-3 inset-x-3 z-10 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
           <button
             onClick={handleAddToCart}
@@ -93,7 +110,7 @@ function ProductCardImpl({ product }: ProductCardProps) {
             {product.colors.map(color => (
               <button
                 key={color}
-                onClick={(e) => { e.preventDefault(); setSelectedColor(color); }}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(color); }}
                 className={`w-2 h-2 rounded-full transition-all ${
                   selectedColor === color
                     ? 'ring-2 ring-accent ring-offset-2 ring-offset-card scale-110'
@@ -117,7 +134,7 @@ function ProductCardImpl({ product }: ProductCardProps) {
           )}
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
 

@@ -5,16 +5,19 @@ import { ProductGridSkeleton } from './ProductSkeleton';
 import { Link } from 'react-router-dom';
 import { useMemo } from 'react';
 import { PackageOpen, RefreshCw } from 'lucide-react';
+import { useReveal } from '@/hooks/useReveal';
 
 export function ProductsSection() {
   const { t } = useLanguage();
   const { products, loading, error, refetch } = useProducts();
   const featured = useMemo(() => products.slice(0, 8), [products]);
+  const headerRef = useReveal<HTMLDivElement>();
+  const gridRef = useReveal<HTMLDivElement>();
 
   return (
     <section className="py-28 bg-surface">
       <div className="container-custom">
-        <div className="flex items-end justify-between mb-14 flex-wrap gap-6">
+        <div ref={headerRef} className="reveal flex items-end justify-between mb-14 flex-wrap gap-6">
           <div>
             <span className="label-eyebrow">— {t('products.featured')}</span>
             <h2 className="text-5xl sm:text-6xl font-display font-light text-foreground mt-3 leading-none">
@@ -41,8 +44,12 @@ export function ProductsSection() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
-            {featured.map(p => <ProductCard key={p.id} product={p} />)}
+          <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+            {featured.map(p => (
+              <div key={p.id} data-reveal-child>
+                <ProductCard product={p} />
+              </div>
+            ))}
           </div>
         )}
       </div>
