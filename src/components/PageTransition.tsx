@@ -1,37 +1,70 @@
-import { ReactNode, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigationType } from 'react-router-dom';
 
-/** 300ms fade + y translate on every route change. transform/opacity only. */
+/**
+ * Premium full-screen panel transition (metajive-style).
+ * Gold panel slides up from bottom (0.4s) covering screen,
+ * then slides out upward revealing new page (0.4s).
+ * Total: ~0.8s.
+ */
 export function PageTransition({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
-  const [stage, setStage] = useState<'in' | 'out'>('in');
+  const navType = useNavigationType();
   const [render, setRender] = useState(children);
+  const [phase, setPhase] = useState<'idle' | 'cover' | 'reveal'>('idle');
+  const firstRender = useRef(true);
 
   useEffect(() => {
-    setStage('out');
-    const t = setTimeout(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      setRender(children);
+      return;
+    }
+    // Cover phase: panel slides up from bottom
+    setPhase('cover');
+    const t1 = setTimeout(() => {
+      // swap content while screen is covered
       setRender(children);
       window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-      setStage('in');
-    }, 200);
-    return () => clearTimeout(t);
+      setPhase('reveal');
+    }, 400);
+    const t2 = setTimeout(() => setPhase('idle'), 800);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, navType]);
 
-  // Update children reference when not transitioning
+  // Keep latest children when no transition is running
   useEffect(() => {
-    if (stage === 'in') setRender(children);
-  }, [children, stage]);
+    if (phase === 'idle') setRender(children);
+  }, [children, phase]);
+
+  // translateY values: cover: -100% -> 0; reveal: 0 -> -100%; idle: 100% (offscreen below)
+  const translate =
+    phase === 'cover' ? '0%' : phase === 'reveal' ? '-100%' : '100%';
+  const transition =
+    phase === 'idle'
+      ? 'none'
+      : 'transform 0.4s cubic-bezier(0.76, 0, 0.24, 1)';
 
   return (
-    <div
-      style={{
-        opacity: stage === 'in' ? 1 : 0,
-        transform: stage === 'in' ? 'translateY(0)' : 'translateY(-10px)',
-        transition: 'opacity 300ms cubic-bezier(0.23,1,0.32,1), transform 300ms cubic-bezier(0.23,1,0.32,1)',
-      }}
-    >
+    <>
       {render}
-    </div>
+      <div
+        aria-hidden
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 9999,
+          background: '#e8c97e',
+          transform: `translate3d(0, ${translate}, 0)`,
+          transition,
+          pointerEvents: 'none',
+          willChange: 'transform',
+        }}
+      />
+    </>
   );
 }
