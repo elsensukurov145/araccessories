@@ -95,14 +95,14 @@ const ContactPage = () => {
         <h1 className="text-3xl sm:text-4xl font-bold font-display mb-4">{T.title}</h1>
         <p className="text-muted-foreground mb-10 max-w-xl">{T.lead}</p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-12 sm:mb-16">
           {cards.map(({ icon: Icon, label, value, href, target }) => (
             <a
               key={label}
               href={href}
               target={target}
               rel={target ? 'noopener noreferrer' : undefined}
-              className="block p-6 bg-card border border-border rounded-xl hover:border-accent hover:shadow-lg transition-all"
+              className="block p-4 sm:p-6 bg-card border border-border rounded-xl hover:border-accent hover:shadow-lg transition-all"
             >
               <Icon className="w-7 h-7 text-accent mb-3" />
               <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">{label}</p>

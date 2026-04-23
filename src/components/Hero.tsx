@@ -94,7 +94,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative container-custom pt-32 pb-28 lg:pt-40 lg:pb-36 w-full z-10">
+      <div className="relative container-custom pt-28 sm:pt-32 pb-32 sm:pb-28 lg:pt-40 lg:pb-36 w-full z-10">
         {/* Subtle radial glow behind heading */}
         <div
           aria-hidden
@@ -128,7 +128,7 @@ export function Hero() {
             style={{
               fontFamily: "'Inter', system-ui, sans-serif",
               fontWeight: 800,
-              fontSize: 'clamp(48px, 7vw, 96px)',
+              fontSize: 'clamp(36px, 8vw, 96px)',
               letterSpacing: '-0.03em',
               lineHeight: 1.02,
               maxWidth: '14ch',
@@ -145,11 +145,10 @@ export function Hero() {
           </h1>
 
           <p
-            className="mb-10 max-w-xl opacity-0"
+            className="mb-10 max-w-xl opacity-0 text-base sm:text-lg"
             style={{
               fontFamily: "'DM Sans', system-ui, sans-serif",
               fontWeight: 300,
-              fontSize: '18px',
               color: '#6b6b7b',
               animation: 'fade-up 0.7s 0.7s forwards',
             }}
@@ -158,13 +157,13 @@ export function Hero() {
           </p>
 
           <div
-            className="flex flex-wrap gap-3 opacity-0"
+            className="flex flex-col sm:flex-row sm:flex-wrap gap-3 opacity-0"
             style={{ animation: 'fade-up 0.7s 0.95s forwards' }}
           >
-            <Link to="/products" className="btn-glass btn-glass-primary">
+            <Link to="/products" className="btn-glass btn-glass-primary w-full sm:w-auto">
               {ctaPrimary}
             </Link>
-            <a href="#categories" className="btn-glass">
+            <a href="#products" className="btn-glass w-full sm:w-auto">
               {ctaSecondary}
             </a>
           </div>
@@ -173,14 +172,14 @@ export function Hero() {
 
       {/* Marquee */}
       <div
-        className="absolute bottom-16 inset-x-0 marquee text-muted-foreground/70 text-[11px] uppercase z-10"
+        className="absolute bottom-12 sm:bottom-16 inset-x-0 marquee text-muted-foreground/70 text-[9px] sm:text-[11px] uppercase z-10"
         style={{ letterSpacing: '0.24em' }}
       >
         <div className="marquee-track">
           {Array.from({ length: 2 }).map((_, k) => (
-            <span key={k} className="inline-flex items-center gap-12 pr-12">
+            <span key={k} className="inline-flex items-center gap-8 sm:gap-12 pr-8 sm:pr-12">
               {marqueeItems.concat(marqueeItems).map((item, i) => (
-                <span key={i} className="inline-flex items-center gap-12">
+                <span key={i} className="inline-flex items-center gap-8 sm:gap-12">
                   <span>{item}</span>
                   <span className="text-accent">·</span>
                 </span>
@@ -192,8 +191,8 @@ export function Hero() {
 
       {/* Scroll indicator */}
       <a
-        href="#categories"
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground hover:text-accent z-10"
+        href="#products"
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground hover:text-accent z-10"
         aria-label="Scroll"
       >
         <ChevronDown className="w-4 h-4" style={{ animation: 'bounce-soft 2s ease-in-out infinite' }} />

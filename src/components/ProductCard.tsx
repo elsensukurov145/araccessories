@@ -46,10 +46,10 @@ function ProductCardImpl({ product }: ProductCardProps) {
       ref={cardRef}
       href={`/product/${product.id}`}
       onClick={handleCardClick}
-      className="card-museum group block aspect-[3/4] flex flex-col"
+      className="card-museum group block flex flex-col"
     >
       {/* Image — grows to 65% on hover */}
-      <div className="relative overflow-hidden h-[55%] group-hover:h-[65%] transition-[height] duration-500 bg-[#0f0f15]">
+      <div className="relative overflow-hidden h-[200px] sm:h-[55%] sm:group-hover:h-[65%] transition-[height] duration-500 bg-[#0f0f15]">
         <img
           src={product.image_url}
           alt={product.name[lang] || product.name.az}
@@ -100,8 +100,8 @@ function ProductCardImpl({ product }: ProductCardProps) {
       </div>
 
       {/* Bottom info */}
-      <div className="flex-1 p-5 flex flex-col">
-        <h3 className="font-display text-xl text-foreground mb-1 line-clamp-2 leading-tight">
+      <div className="flex-1 p-3 sm:p-5 flex flex-col">
+        <h3 className="font-display text-base sm:text-xl text-foreground mb-1 line-clamp-2 leading-tight">
           {product.name[lang] || product.name.az}
         </h3>
 
@@ -123,14 +123,14 @@ function ProductCardImpl({ product }: ProductCardProps) {
           </div>
         )}
 
-        <div className="mt-auto flex items-baseline gap-2">
+        <div className="mt-auto flex items-baseline gap-2 flex-wrap">
           {product.discount_price ? (
             <>
-              <span className="font-body text-base text-accent">{product.discount_price} {t('currency')}</span>
+              <span className="font-body text-sm sm:text-base text-accent">{product.discount_price} {t('currency')}</span>
               <span className="font-body text-xs text-muted-foreground line-through">{product.price} {t('currency')}</span>
             </>
           ) : (
-            <span className="font-body text-base text-foreground">{product.price} {t('currency')}</span>
+            <span className="font-body text-sm sm:text-base text-foreground">{product.price} {t('currency')}</span>
           )}
         </div>
       </div>

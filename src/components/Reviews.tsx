@@ -6,11 +6,11 @@ export function Reviews() {
   const { lang, t } = useLanguage();
 
   return (
-    <section className="py-28 bg-surface">
+    <section className="py-16 sm:py-24 lg:py-28 bg-surface">
       <div className="container-custom">
-        <div className="mb-14">
+        <div className="mb-10 sm:mb-14">
           <span className="label-eyebrow">— Testimonials</span>
-          <h2 className="text-5xl sm:text-6xl font-display font-light text-foreground mt-3 leading-none">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-light text-foreground mt-3 leading-none">
             What clients <span className="italic text-gold-gradient font-black">say</span>
           </h2>
         </div>

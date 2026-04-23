@@ -16,13 +16,13 @@ export function DiscountedProducts() {
   if (!loading && discounted.length === 0) return null;
 
   return (
-    <section className="py-28 bg-background relative overflow-hidden">
+    <section className="py-16 sm:py-24 lg:py-28 bg-background relative overflow-hidden">
       <div
         aria-hidden
         className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
       >
         <span
-          className="font-display font-black italic text-[28vw] leading-none whitespace-nowrap"
+          className="font-display font-black italic text-[24vw] sm:text-[28vw] leading-none whitespace-nowrap"
           style={{
             transform: 'rotate(-12deg)',
             color: 'transparent',
@@ -34,21 +34,21 @@ export function DiscountedProducts() {
       </div>
 
       <div className="container-custom relative">
-        <div className="flex items-end justify-between mb-14 flex-wrap gap-6">
+        <div className="flex items-end justify-between mb-10 sm:mb-14 flex-wrap gap-4 sm:gap-6">
           <div>
             <span className="label-eyebrow" style={{ color: 'hsl(var(--destructive))' }}>— {t('products.onSale')}</span>
-            <h2 className="text-5xl sm:text-6xl font-display font-light text-foreground mt-3 leading-none">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-light text-foreground mt-3 leading-none">
               {t('products.onSaleTitle')}{' '}
               <span className="italic text-gold-gradient font-black">{t('products.onSaleAccent')}</span>
             </h2>
           </div>
-          <Link to="/discounts" className="btn-outline-gold">{t('products.viewAllBtn')}</Link>
+          <Link to="/discounts" className="btn-outline-gold w-full sm:w-auto">{t('products.viewAllBtn')}</Link>
         </div>
 
         {loading ? (
           <ProductGridSkeleton count={4} />
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
             {discounted.map(p => <ProductCard key={p.id} product={p} />)}
           </div>
         )}
