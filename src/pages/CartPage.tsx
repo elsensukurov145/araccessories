@@ -87,30 +87,30 @@ const CartPage = () => {
             </Link>
           </div>
         ) : (
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             <div className="lg:col-span-2 space-y-4">
               {items.map(item => (
-                <div key={item.cartId} className="flex gap-4 p-4 bg-card border border-border rounded-xl">
+                <div key={item.cartId} className="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-card border border-border rounded-xl">
                   <img
                     src={item.image_url || PLACEHOLDER_IMG}
                     alt=""
-                    className="w-20 h-20 object-cover rounded-lg bg-muted"
+                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg bg-muted flex-shrink-0"
                     onError={(e) => { (e.target as HTMLImageElement).src = PLACEHOLDER_IMG; }}
                   />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-sm line-clamp-2">{item?.name?.[lang] || item?.name?.az}</h3>
                     <p className="text-xs text-muted-foreground mt-1">{t('cart.color')}: {item.selectedColor}</p>
-                    <p className="text-accent font-bold mt-1">{(item.discount_price || item.price)} {t('currency')}</p>
+                    <p className="text-accent font-bold mt-1 text-sm sm:text-base">{(item.discount_price || item.price)} {t('currency')}</p>
                   </div>
-                  <div className="flex flex-col items-end justify-between">
+                  <div className="flex flex-col items-end justify-between flex-shrink-0">
                     <button onClick={() => removeFromCart(item.cartId)} className="text-destructive p-2 min-w-[44px] min-h-[44px] flex items-center justify-center" aria-label={t('cart.remove')}>
                       <Trash2 className="w-4 h-4" />
                     </button>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
                       <button onClick={() => updateQuantity(item.cartId, item.quantity - 1)} className="w-9 h-9 rounded-lg border border-border flex items-center justify-center" aria-label="-">
                         <Minus className="w-3 h-3" />
                       </button>
-                      <span className="w-8 text-center font-semibold text-sm">{item.quantity}</span>
+                      <span className="w-7 sm:w-8 text-center font-semibold text-sm">{item.quantity}</span>
                       <button onClick={() => updateQuantity(item.cartId, item.quantity + 1)} className="w-9 h-9 rounded-lg border border-border flex items-center justify-center" aria-label="+">
                         <Plus className="w-3 h-3" />
                       </button>
@@ -121,7 +121,7 @@ const CartPage = () => {
             </div>
 
             <div className="space-y-4">
-              <div className="bg-card border border-border rounded-xl p-6 sticky top-20">
+              <div className="bg-card border border-border rounded-xl p-5 sm:p-6 lg:sticky lg:top-20">
                 <h2 className="text-lg font-bold mb-4">{t('cart.orderSummary')}</h2>
                 <div className="flex justify-between mb-2 text-sm">
                   <span className="text-muted-foreground">{t('cart.subtotal')}</span>
@@ -138,16 +138,16 @@ const CartPage = () => {
 
                 {user ? (
                   <div className="mt-6 space-y-3">
-                    <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder={t('cart.name')} className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-border bg-background text-sm" />
-                    <input value={form.surname} onChange={e => setForm({ ...form, surname: e.target.value })} placeholder={t('cart.surname')} className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-border bg-background text-sm" />
-                    <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} placeholder={t('cart.phone')} className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-border bg-background text-sm" />
-                    <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} placeholder={t('cart.address')} className="w-full px-3 py-2.5 min-h-[44px] rounded-lg border border-border bg-background text-sm" />
-                    <Button onClick={handleCheckout} disabled={submitting} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 min-h-[44px]">
+                    <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder={t('cart.name')} className="w-full px-3 py-2.5 h-12 rounded-lg border border-border bg-background text-sm" />
+                    <input value={form.surname} onChange={e => setForm({ ...form, surname: e.target.value })} placeholder={t('cart.surname')} className="w-full px-3 py-2.5 h-12 rounded-lg border border-border bg-background text-sm" />
+                    <input value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} placeholder={t('cart.phone')} className="w-full px-3 py-2.5 h-12 rounded-lg border border-border bg-background text-sm" />
+                    <input value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} placeholder={t('cart.address')} className="w-full px-3 py-2.5 h-12 rounded-lg border border-border bg-background text-sm" />
+                    <Button onClick={handleCheckout} disabled={submitting} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 h-12">
                       {submitting ? t('cart.checkoutSubmitting') : t('cart.checkout')}
                     </Button>
                   </div>
                 ) : (
-                  <Link to="/login" className="mt-6 block w-full text-center px-4 py-3 min-h-[44px] bg-accent text-accent-foreground rounded-lg font-semibold">
+                  <Link to="/login" className="mt-6 block w-full text-center px-4 py-3 h-12 inline-flex items-center justify-center bg-accent text-accent-foreground rounded-lg font-semibold">
                     {t('cart.signInToCheckout')}
                   </Link>
                 )}
