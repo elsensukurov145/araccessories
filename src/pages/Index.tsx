@@ -1,6 +1,5 @@
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
-import { Categories } from '@/components/Categories';
 import { ProductsSection } from '@/components/ProductsSection';
 import { DiscountedProducts } from '@/components/DiscountedProducts';
 import { BentoGrid } from '@/components/BentoGrid';
@@ -15,7 +14,6 @@ const Index = () => {
       <Header />
       <main className="page-main">
         <Hero />
-        <Categories />
         <ProductsSection />
         <DiscountedProducts />
         <BentoGrid />
