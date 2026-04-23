@@ -17,8 +17,22 @@ function Reveal({ words, delayBase = 0 }: { words: string[]; delayBase?: number 
 export function Hero() {
   const { t, lang } = useLanguage();
 
-  const line1 = lang === 'ru' ? 'АКСЕССУАРЫ' : lang === 'en' ? 'PHONE' : 'TELEFON';
-  const line2 = lang === 'ru' ? 'ПРЕМИУМ' : lang === 'en' ? 'EXTRAORDINARY' : 'AKSESUARİ';
+  const heading =
+    lang === 'ru'
+      ? 'ТЕХНОЛОГИИ НОВОГО ПОКОЛЕНИЯ'
+      : lang === 'en'
+      ? 'NEXT GENERATION TECHNOLOGY'
+      : 'YENİ NƏSİL TEXNOLOGİYA';
+
+  const subtitle =
+    lang === 'ru'
+      ? 'Качественные аксессуары. Простой дизайн. Быстрая доставка.'
+      : lang === 'en'
+      ? 'Quality accessories. Simple design. Fast delivery.'
+      : 'Keyfiyyətli aksesuar. Sadə dizayn. Sürətli çatdırılma.';
+
+  const ctaPrimary = lang === 'ru' ? 'Купить сейчас' : lang === 'en' ? 'Shop Now' : 'İndi Al';
+  const ctaSecondary = lang === 'ru' ? 'Категории' : lang === 'en' ? 'Categories' : 'Kateqoriyalar';
 
   const marqueeItems =
     lang === 'ru'
@@ -81,41 +95,79 @@ export function Hero() {
       </div>
 
       <div className="relative container-custom pt-32 pb-28 lg:pt-40 lg:pb-36 w-full z-10">
-        <span
-          className="label-eyebrow opacity-0 mb-8 block"
-          style={{ animation: 'fade-up 0.7s 0.1s forwards' }}
-        >
-          — ar_accessories
-        </span>
-
-        <h1 className="font-display leading-[0.88] mb-10 tracking-[-0.02em]">
-          <span
-            className="block font-light text-foreground"
-            style={{ fontSize: 'clamp(3.5rem, 11vw, 10rem)' }}
-          >
-            <Reveal words={[line1]} delayBase={0.2} />
-          </span>
-          <span
-            className="block italic font-black text-gold-gradient"
-            style={{ fontSize: 'clamp(3.5rem, 11vw, 10rem)' }}
-          >
-            <Reveal words={[line2]} delayBase={0.4} />
-          </span>
-        </h1>
-
-        <p
-          className="text-base sm:text-lg text-muted-foreground mb-10 max-w-md leading-relaxed opacity-0 font-light"
-          style={{ animation: 'fade-up 0.7s 0.95s forwards' }}
-        >
-          {t('hero.subtitle')}
-        </p>
-
+        {/* Subtle radial glow behind heading */}
         <div
-          className="flex flex-wrap gap-3 opacity-0"
-          style={{ animation: 'fade-up 0.7s 1.15s forwards' }}
-        >
-          <Link to="/products" className="btn-gold">{t('hero.shopNow')}</Link>
-          <a href="#categories" className="btn-outline-gold">{t('hero.viewCategories')}</a>
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse 60% 40% at 50% 45%, rgba(232,201,126,0.10) 0%, transparent 70%)',
+          }}
+        />
+
+        <div className="relative">
+          <div
+            className="opacity-0 mb-5 flex items-center gap-4"
+            style={{ animation: 'fade-up 0.7s 0.1s forwards' }}
+          >
+            <span
+              className="uppercase text-[11px] font-normal"
+              style={{ color: '#e8c97e', letterSpacing: '0.2em' }}
+            >
+              — AR_ACCESSORIES
+            </span>
+            <span
+              aria-hidden
+              className="block h-px"
+              style={{ width: '60px', background: '#e8c97e' }}
+            />
+          </div>
+
+          <h1
+            className="mb-8 opacity-0"
+            style={{
+              fontFamily: "'Inter', system-ui, sans-serif",
+              fontWeight: 800,
+              fontSize: 'clamp(48px, 7vw, 96px)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1.02,
+              maxWidth: '14ch',
+              backgroundImage:
+                'linear-gradient(135deg, #ffffff 0%, #a0a0a0 50%, #ffffff 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent',
+              animation: 'fade-up 0.9s 0.25s forwards',
+            }}
+          >
+            {heading}
+          </h1>
+
+          <p
+            className="mb-10 max-w-xl opacity-0"
+            style={{
+              fontFamily: "'DM Sans', system-ui, sans-serif",
+              fontWeight: 300,
+              fontSize: '18px',
+              color: '#6b6b7b',
+              animation: 'fade-up 0.7s 0.7s forwards',
+            }}
+          >
+            {subtitle}
+          </p>
+
+          <div
+            className="flex flex-wrap gap-3 opacity-0"
+            style={{ animation: 'fade-up 0.7s 0.95s forwards' }}
+          >
+            <Link to="/products" className="btn-glass btn-glass-primary">
+              {ctaPrimary}
+            </Link>
+            <a href="#categories" className="btn-glass">
+              {ctaSecondary}
+            </a>
+          </div>
         </div>
       </div>
 
